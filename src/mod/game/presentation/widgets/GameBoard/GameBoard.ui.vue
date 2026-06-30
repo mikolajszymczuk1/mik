@@ -1,10 +1,11 @@
 <template>
   <div
-    class="bg-game-window-background grid h-100 w-100 grid-cols-5 grid-rows-5 gap-3 rounded-3xl p-4"
+    class="bg-game-window-background relative grid h-100 w-100 grid-cols-5 grid-rows-5 gap-3 rounded-3xl p-4"
     @pointerup="onPointerUp"
     @pointercancel="onPointerUp"
   >
     <GameCellUi v-for="cell in cells" :key="cell.id" :cell="cell" @cell-down="onCellDown" />
+    <PathOverlayUi :positions="path" />
   </div>
 </template>
 
@@ -12,10 +13,12 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import type Cell from '@game/domain/models/Cell'
 import GameCellUi from '@game/presentation/widgets/GameCell/GameCell.ui.vue'
+import PathOverlayUi from '@game/presentation/widgets/PathOverlay/PathOverlay.ui.vue'
 import type { Position } from '@game/domain/types/Position.type'
 
 interface Props {
   cells: Cell[]
+  path: Position[]
 }
 
 defineProps<Props>()

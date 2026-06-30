@@ -2,11 +2,13 @@ class Cell {
   private _x: number
   private _y: number
   private _active: boolean
+  private _landNumber: number
 
   constructor(x: number, y: number) {
     this._x = x
     this._y = y
     this._active = false
+    this._landNumber = -1
   }
 
   public get id(): string {
@@ -25,8 +27,16 @@ class Cell {
     return this._active
   }
 
+  public get landNumber(): number {
+    return this._landNumber;
+  }
+
   public set active(value: boolean) {
     this._active = value;
+  }
+
+  public set landNumber(value: number) {
+    this._landNumber = value;
   }
 }
 
