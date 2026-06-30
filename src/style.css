@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ====== Colors ====== */
+
+  /* Core */
+  --color-background: #f0f3ff;
+
+  /* Game */
+  --color-game-window-background: #e2e8f8;
+  --color-game-cell-background: #ffffff;
+  --color-game-cell-border: #d4daf0;
+  --color-game-cell-shadow: #bbc4de;
+  --color-game-accent: #ff871f;
+
+  /* Text */
+  --color-text-primary: #181a2e;
+
+  /* ==================== */
+
+  /* ====== Shadow ====== */
+
+  --shadow-base: 0 3px 0 rgb(187, 196, 222);
+  --shadow-base-hover: 0 6px 0 rgb(187, 196, 222);
+  --shadow-base-active: 0 1px 0 rgb(187, 196, 222);
+
+  --shadow-game-cell: 0 5px 0 rgb(187, 196, 222);
+  --shadow-game-cell-hover: 0 10px 0 rgb(187, 196, 222);
+  --shadow-game-cell-active: 0 2px 0 rgb(187, 196, 222);
+
+  /* ==================== */
+}
