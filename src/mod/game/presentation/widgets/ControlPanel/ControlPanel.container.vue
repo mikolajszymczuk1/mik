@@ -9,12 +9,18 @@
 <script lang="ts" setup>
 import ControlPanelUi from '@game/presentation/widgets/ControlPanel/ControlPanel.ui.vue'
 import { useResetGameCommandAction } from '@game/application/commands/resetGameCommandAction'
+import { useThemeSettings } from '@shared/application/theme/useThemeSettings'
 
 const { resetGameAction } = useResetGameCommandAction()
+const { toggleThemeMode, changeAccentColor } = useThemeSettings()
 
-const handleChangeLightDarkMode = (): void => {}
+const handleChangeLightDarkMode = (): void => {
+  toggleThemeMode()
+}
 
-const handleChangeAccentTheme = (): void => {}
+const handleChangeAccentTheme = (): void => {
+  changeAccentColor()
+}
 
 const handleRepeat = (): void => {
   resetGameAction()

@@ -1,5 +1,5 @@
 <template>
-  <span class="font-rubik font-semibold" :class="[textSize]">
+  <span class="text-text-primary font-rubik font-semibold" :class="[textSize]">
     {{ text }}
   </span>
 </template>

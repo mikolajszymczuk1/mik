@@ -10,6 +10,7 @@
   /* Game */
   --color-game-window-background: #e2e8f8;
   --color-game-cell-background: #ffffff;
+  --color-game-land-background: #ffffff;
   --color-game-cell-border: #d4daf0;
   --color-game-cell-shadow: #bbc4de;
   --color-game-accent: #ff871f;
@@ -36,4 +37,28 @@
   --font-rubik: 'Rubik', sans-serif;
 
   /* ==================== */
+}
+
+html {
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-background: #171923;
+  --color-game-window-background: #232637;
+  --color-game-cell-background: #242633;
+  --color-game-land-background: #1b2031;
+  --color-game-cell-border: #444a63;
+  --color-game-cell-shadow: #151721;
+  --color-text-primary: #f6f8ff;
+
+  --shadow-base: 0 3px 0 rgb(21, 23, 33);
+  --shadow-base-hover: 0 6px 0 rgb(21, 23, 33);
+  --shadow-base-active: 0 1px 0 rgb(21, 23, 33);
+
+  --shadow-game-cell: 0 5px 0 rgb(21, 23, 33);
+  --shadow-game-cell-hover: 0 10px 0 rgb(21, 23, 33);
+  --shadow-game-cell-active: 0 2px 0 rgb(21, 23, 33);
 }

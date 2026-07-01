@@ -13,7 +13,7 @@
       :class="[
         cell.active
           ? 'bg-game-accent border-none shadow-none'
-          : 'border-game-cell-border shadow-base bg-game-cell-background',
+          : 'border-game-accent shadow-base bg-game-land-background',
         !cell.active ? 'land-float' : '',
       ]"
     >
