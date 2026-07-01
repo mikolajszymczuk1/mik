@@ -6,6 +6,7 @@
       <BaseActionButton :icon="faCircle" @click="changeAccentTheme" />
       <BaseActionButton :icon="faArrowRotateRight" @click="repeat" />
     </div>
+    <slot name="complete-level-dialog" />
   </div>
 </template>
 

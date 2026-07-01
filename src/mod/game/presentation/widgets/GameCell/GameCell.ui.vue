@@ -1,15 +1,14 @@
 <template>
   <div
-    class="bg-game-cell-background shadow-game-cell hover:shadow-game-cell-hover active:shadow-game-cell-active flex h-16 w-16 cursor-pointer items-center justify-center rounded-xl border-2 transition-all duration-150 ease-out hover:-translate-y-1.25 active:translate-y-0.5"
+    class="game-cell bg-game-cell-background shadow-game-cell hover:shadow-game-cell-hover active:shadow-game-cell-active flex h-full w-full touch-none cursor-pointer items-center justify-center rounded-xl border-2 transition-all duration-150 ease-out select-none hover:-translate-y-1.25 active:translate-y-0.5"
     :class="cell.active ? 'border-game-accent' : 'border-game-cell-border'"
     :data-x="cell.x"
     :data-y="cell.y"
-    style="touch-action: none"
     @pointerdown.prevent="emit('cell-down', position)"
   >
     <div
       v-if="cell.landNumber != -1"
-      class="flex h-8 w-8 items-center justify-center rounded-full border"
+      class="flex h-1/2 w-1/2 items-center justify-center rounded-full border"
       :class="[
         cell.active
           ? 'bg-game-accent border-none shadow-none'
@@ -44,6 +43,12 @@ const position = computed<Position>(() => ({ x: props.cell.x, y: props.cell.y })
 <style scoped>
 .land-float {
   animation: land-float 0.6s ease-in-out infinite alternate;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .game-cell {
+    transform: none !important;
+  }
 }
 
 @keyframes land-float {

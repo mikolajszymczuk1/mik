@@ -2,13 +2,14 @@
   <div
     class="bg-game-cell-background border-game-cell-border shadow-base flex h-12 min-w-25 items-center justify-center rounded-full border-2 px-4"
   >
-    <BaseText :text="formattedTime" />
+    <BaseText :text="formattedTime(elapsedSeconds)" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import BaseText from '@/shared/presentation/ui/base/text/BaseText.vue'
-import { computed, onUnmounted, watch } from 'vue'
+import { onUnmounted, watch } from 'vue'
+import { formattedTime } from '@shared/application/helpers/formattedTime.helper'
 
 interface Props {
   elapsedSeconds: number
@@ -22,13 +23,6 @@ const emit = defineEmits<{
 }>()
 
 let intervalId: ReturnType<typeof setInterval> | undefined
-
-const formattedTime = computed<string>(() => {
-  const minutes = Math.floor(props.elapsedSeconds / 60)
-  const seconds = props.elapsedSeconds % 60
-
-  return `${minutes}:${String(seconds).padStart(2, '0')}`
-})
 
 const stopTimer = (): void => {
   if (!intervalId) return

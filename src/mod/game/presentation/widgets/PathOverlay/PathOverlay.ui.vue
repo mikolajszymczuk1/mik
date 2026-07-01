@@ -10,6 +10,7 @@
       :y1="segment.y1"
       :x2="segment.x2"
       :y2="segment.y2"
+      :stroke-width="pathStrokeWidth"
       class="path-line"
     />
     <line
@@ -18,11 +19,18 @@
       :y1="activeSegment.y1"
       :x2="activeSegment.x2"
       :y2="activeSegment.y2"
-      :style="{ strokeDashoffset: activeSegmentOffset }"
+      :stroke-width="pathStrokeWidth"
+      :style="{ strokeDasharray: pathDashArray, strokeDashoffset: activeSegmentOffset }"
       class="path-line path-line--active"
     />
-    <circle v-if="positions.length > 0" :cx="dotX" :cy="dotY" r="16" class="path-dot" />
-    <circle v-if="positions.length > 0" :cx="dotX" :cy="dotY" r="6" class="path-dot-inner" />
+    <circle v-if="positions.length > 0" :cx="dotX" :cy="dotY" :r="dotRadius" class="path-dot" />
+    <circle
+      v-if="positions.length > 0"
+      :cx="dotX"
+      :cy="dotY"
+      :r="dotInnerRadius"
+      class="path-dot-inner"
+    />
   </svg>
 </template>
 
@@ -38,17 +46,21 @@ interface Segment {
   y2: number
 }
 
+interface BoardMetrics {
+  cellSize: number
+  gap: number
+  padding: number
+  step: number
+}
+
 interface Props {
   positions: Position[]
+  metrics: BoardMetrics
 }
 
 const props = defineProps<Props>()
 
-const CELL_SIZE = 64
-const GAP = 12
-const PADDING = 16
-const STEP = CELL_SIZE + GAP
-const DURATION = 280
+const DURATION = 180
 
 const dotX = ref(0)
 const dotY = ref(0)
@@ -90,22 +102,24 @@ const activeSegment = computed<Segment | null>(() => {
   return { key: 'active', x1: a.x, y1: a.y, x2: b.x, y2: b.y }
 })
 
-const activeSegmentOffset = computed(() => STEP * (1 - segmentProgress.value))
+const activeSegmentOffset = computed(() => props.metrics.step * (1 - segmentProgress.value))
+const pathDashArray = computed(() => props.metrics.step)
+const pathStrokeWidth = computed(() => props.metrics.cellSize * 0.28)
+const dotRadius = computed(() => props.metrics.cellSize * 0.25)
+const dotInnerRadius = computed(() => props.metrics.cellSize * 0.1)
 
 const cellCenter = (pos: Position): { x: number; y: number } => ({
-  x: PADDING + pos.x * STEP + CELL_SIZE / 2,
-  y: PADDING + pos.y * STEP + CELL_SIZE / 2,
+  x: props.metrics.padding + pos.x * props.metrics.step + props.metrics.cellSize / 2,
+  y: props.metrics.padding + pos.y * props.metrics.step + props.metrics.cellSize / 2,
 })
 
-const easeOutBack = (t: number): number => {
-  const c1 = 1.2
-  const c3 = c1 + 1
-  return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
+const easeOutCubic = (t: number): number => {
+  return 1 - Math.pow(1 - t, 3)
 }
 
 const tick = (now: number): void => {
   const raw = Math.min((now - animStart) / DURATION, 1)
-  const p = easeOutBack(raw)
+  const p = easeOutCubic(raw)
   segmentProgress.value = p
   dotX.value = fromX + (toX - fromX) * p
   dotY.value = fromY + (toY - fromY) * p
@@ -179,6 +193,18 @@ watch(
   { deep: true },
 )
 
+watch(
+  () => props.metrics,
+  () => {
+    if (props.positions.length === 0) return
+
+    const currentEnd = cellCenter(props.positions[props.positions.length - 1]!)
+    dotX.value = currentEnd.x
+    dotY.value = currentEnd.y
+  },
+  { deep: true },
+)
+
 onUnmounted(() => {
   if (rafId !== null) cancelAnimationFrame(rafId)
 })
@@ -187,12 +213,7 @@ onUnmounted(() => {
 <style scoped>
 .path-line {
   stroke: var(--color-game-accent);
-  stroke-width: 18;
   stroke-linecap: round;
-}
-
-.path-line--active {
-  stroke-dasharray: 76;
 }
 
 .path-dot {

@@ -7,6 +7,9 @@
     <template #timer>
       <GameTimerContainer />
     </template>
+    <template #complete-level-dialog>
+      <CompleteLevelDialogContainer />
+    </template>
   </ControlPanelUi>
 </template>
 
@@ -15,6 +18,7 @@ import ControlPanelUi from '@game/presentation/widgets/ControlPanel/ControlPanel
 import GameTimerContainer from '@game/presentation/widgets/GameTimer/GameTimer.container.vue'
 import { useResetGameCommandAction } from '@game/application/commands/resetGameCommandAction'
 import { useThemeSettings } from '@shared/application/theme/useThemeSettings'
+import CompleteLevelDialogContainer from '@game/presentation/widgets/CompleteLevelDialog/CompleteLevelDialog.container.vue'
 
 const { resetGameAction } = useResetGameCommandAction()
 const { toggleThemeMode, changeAccentColor } = useThemeSettings()
