@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-between">
-    <GameTimerUi />
+    <slot name="timer" />
     <div class="flex items-center gap-2">
       <BaseActionButton :icon="faSun" @click="changeLightDarkMode" />
       <BaseActionButton :icon="faCircle" @click="changeAccentTheme" />
@@ -11,7 +11,6 @@
 
 <script lang="ts" setup>
 import BaseActionButton from '@/shared/presentation/ui/base/buttons/BaseActionButton.vue'
-import GameTimerUi from '@game/presentation/widgets/GameTimer/GameTimer.ui.vue'
 import { faSun, faArrowRotateRight, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 const emit = defineEmits<{
