@@ -1,54 +1,95 @@
-# mik
+# Mik
 
-This template should help get you started developing with Vue 3 in Vite.
+Mik is a small, polished puzzle game built with Vue, TypeScript, Pinia, and Tailwind CSS. The goal is to connect the numbered cells in the correct order while filling the entire board with a continuous path.
 
-## Recommended IDE Setup
+The game focuses on quick rounds, tactile interactions, smooth path drawing, and a playful interface that works on both desktop and mobile.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Gameplay Preview
 
-## Recommended Browser Setup
+![Mik gameplay preview](./docs/preview.gif)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Features
 
-## Type Support for `.vue` Imports in TS
+- 5x5 path-building puzzle board
+- Numbered checkpoints that must be connected in order
+- Animated path drawing with an active cursor
+- Game timer with level completion tracking
+- Complete-level dialog
+- Light and dark mode support
+- Dynamic accent color switching
+- Responsive board scaling for mobile screens
+- Touch-friendly pointer controls
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Tech Stack
 
-## Customize configuration
+- Vue 3
+- TypeScript
+- Pinia
+- Tailwind CSS 4
+- Vite
+- Vitest
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Getting Started
 
-## Project Setup
+Install dependencies:
 
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Run the development server:
 
-```sh
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Build for production:
 
-```sh
+```bash
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Preview the production build:
 
-```sh
+```bash
+npm run preview
+```
+
+## Quality Checks
+
+Run type checking:
+
+```bash
+npm run type-check
+```
+
+Run unit tests:
+
+```bash
 npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Run the production build only:
 
-```sh
-npm run lint
+```bash
+npm run build-only
 ```
+
+## Project Structure
+
+```text
+src/
+  mod/
+    game/
+      application/   Game command actions
+      domain/        Core game types and models
+      presentation/  Game views and widgets
+      store/         Pinia game state
+  shared/
+    application/     Shared application logic
+    presentation/    Reusable UI components
+```
+
+## Notes
+
+The project keeps UI components and container components separate where it matters. UI components focus on rendering and local interaction, while containers connect them to application commands and store state.
