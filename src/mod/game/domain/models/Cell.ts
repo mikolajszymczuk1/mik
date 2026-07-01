@@ -28,15 +28,15 @@ class Cell {
   }
 
   public get landNumber(): number {
-    return this._landNumber;
+    return this._landNumber
   }
 
   public set active(value: boolean) {
-    this._active = value;
+    this._active = value
   }
 
   public set landNumber(value: number) {
-    this._landNumber = value;
+    this._landNumber = value
   }
 }
 

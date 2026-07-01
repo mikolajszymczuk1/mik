@@ -13,12 +13,17 @@ import GameBoardUi from '@game/presentation/widgets/GameBoard/GameBoard.ui.vue'
 import Cell from '@game/domain/models/Cell'
 import { onBeforeMount, onMounted, type Ref, ref } from 'vue'
 import type { Position } from '@game/domain/types/Position.type'
+import { useStartGameCommandAction } from '@game/application/commands/startGameCommandAction'
+import { useFinishLevelCommandAction } from '@game/application/commands/finishLevelCommandAction'
 
 const BOARD_SIZE = 5
 
 const cells: Ref<Cell[]> = ref([])
 const activeCellsPositions: Ref<Position[]> = ref([])
 const landPositions: Ref<Position[]> = ref([])
+
+const { startGameAction } = useStartGameCommandAction()
+const { finishLevelAction } = useFinishLevelCommandAction()
 
 const createCells = (): void => {
   let col = 0
@@ -100,16 +105,19 @@ const prepareNewLevel = () => {
   picks.forEach((position, index) => setLandNumber(position, index + 1))
 }
 
+const getCellAt = (position: Position) =>
+  cells.value.find((cell) => cell.x === position.x && cell.y === position.y)!
+
 const activateCell = (position: Position): void => {
-  cells.value.find((cell) => cell.x === position.x && cell.y === position.y)!.active = true
+  getCellAt(position).active = true
 }
 
 const deactivateCell = (position: Position): void => {
-  cells.value.find((cell) => cell.x === position.x && cell.y === position.y)!.active = false
+  getCellAt(position).active = false
 }
 
 const setLandNumber = (position: Position, number: number): void => {
-  cells.value.find((cell) => cell.x === position.x && cell.y === position.y)!.landNumber = number
+  getCellAt(position).landNumber = number
 }
 
 const handleDragStart = (position: Position): void => {
@@ -117,6 +125,7 @@ const handleDragStart = (position: Position): void => {
   if (!landPositions.value[0]) return
   if (position.x !== landPositions.value[0]!.x || position.y !== landPositions.value[0]!.y) return
 
+  startGameAction()
   activateCell(position)
   activeCellsPositions.value = [position]
 }
@@ -135,8 +144,21 @@ const handleDragEnter = (position: Position): void => {
   )
 
   if (existingIndex === -1) {
+    const targetLandNumber = getCellAt(position).landNumber
+    if (targetLandNumber !== -1) {
+      const visitedLands = activeCellsPositions.value.filter(
+        (p) => getCellAt(p).landNumber !== -1,
+      ).length
+      if (targetLandNumber !== visitedLands + 1) return
+      const isLastLand = targetLandNumber === landPositions.value.length
+      if (isLastLand && activeCellsPositions.value.length !== BOARD_SIZE * BOARD_SIZE - 1) return
+    }
     activateCell(position)
     activeCellsPositions.value.push(position)
+
+    if (activeCellsPositions.value.length === BOARD_SIZE * BOARD_SIZE) {
+      finishLevelAction()
+    }
   } else {
     const removed = activeCellsPositions.value.splice(existingIndex + 1)
     removed.forEach(deactivateCell)
