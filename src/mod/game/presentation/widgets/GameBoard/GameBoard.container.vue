@@ -11,16 +11,19 @@
 <script lang="ts" setup>
 import GameBoardUi from '@game/presentation/widgets/GameBoard/GameBoard.ui.vue'
 import Cell from '@game/domain/models/Cell'
-import { onBeforeMount, onMounted, type Ref, ref } from 'vue'
+import { onBeforeMount, onMounted, type Ref, ref, watch } from 'vue'
 import type { Position } from '@game/domain/types/Position.type'
 import { useStartGameCommandAction } from '@game/application/commands/startGameCommandAction'
 import { useFinishLevelCommandAction } from '@game/application/commands/finishLevelCommandAction'
+import { useGameStore } from '@game/store/gameStore'
 
 const BOARD_SIZE = 5
 
 const cells: Ref<Cell[]> = ref([])
 const activeCellsPositions: Ref<Position[]> = ref([])
 const landPositions: Ref<Position[]> = ref([])
+
+const gameStore = useGameStore()
 
 const { startGameAction } = useStartGameCommandAction()
 const { finishLevelAction } = useFinishLevelCommandAction()
@@ -131,6 +134,7 @@ const handleDragStart = (position: Position): void => {
 }
 
 const handleDragEnter = (position: Position): void => {
+  if (gameStore.isLevelFinished) return
   if (activeCellsPositions.value.length < 1) return
 
   const lastCellPosition = activeCellsPositions.value[activeCellsPositions.value.length - 1]!
@@ -168,6 +172,16 @@ const handleDragEnter = (position: Position): void => {
 const handleDragEnd = (): void => {
   // Some action on drag end event
 }
+
+watch(
+  () => gameStore.reset,
+  () => {
+    cells.value = []
+    activeCellsPositions.value = []
+    createCells()
+    prepareNewLevel()
+  },
+)
 
 onBeforeMount((): void => {
   createCells()

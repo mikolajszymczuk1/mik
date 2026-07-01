@@ -9,7 +9,7 @@
   >
     <div
       v-if="cell.landNumber != -1"
-      class="flex h-8 w-8 items-center justify-center rounded-full border text-[12px]"
+      class="flex h-8 w-8 items-center justify-center rounded-full border"
       :class="[
         cell.active
           ? 'bg-game-accent border-none shadow-none'
@@ -17,12 +17,13 @@
         !cell.active ? 'land-float' : '',
       ]"
     >
-      {{ cell.active ? '' : cell.landNumber }}
+      <BaseText :text="`${cell.active ? '' : cell.landNumber}`" size="small" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import BaseText from '@shared/presentation/ui/base/text/BaseText.vue'
 import type Cell from '@game/domain/models/Cell'
 import { type Position } from '@game/domain/types/Position.type'
 import { computed } from 'vue'

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -27,6 +28,12 @@
   --shadow-game-cell: 0 5px 0 rgb(187, 196, 222);
   --shadow-game-cell-hover: 0 10px 0 rgb(187, 196, 222);
   --shadow-game-cell-active: 0 2px 0 rgb(187, 196, 222);
+
+  /* ==================== */
+
+  /* ====== Fonts ====== */
+
+  --font-rubik: 'Rubik', sans-serif;
 
   /* ==================== */
 }
